@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lycoris.mapper.CategoryMapper">
+
+    <resultMap id="BaseResultMap" type="com.lycoris.domain.Category">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="categoryName" column="category_name" jdbcType="VARCHAR"/>
+            <result property="categoryDesc" column="category_desc" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,category_name,category_desc
+    </sql>
+    <sql id="Base_Where">
+        <where>
+            <if test="id != null">
+                and id = #{id,jdbcType=BIGINT}
+            </if>
+            <if test="categoryName != null and categoryName != '' ">
+               and category_name = #{categoryName,jdbcType=VARCHAR}
+            </if>
+            <if test="categoryDesc != null and categoryDesc != ''">
+               and category_desc = #{categoryDesc,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from category
+        where  id = #{id,jdbcType=BIGINT} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from category
+        where  id = #{id,jdbcType=BIGINT} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.lycoris.domain.Category" useGeneratedKeys="true">
+        insert into category
+        ( id,category_name,category_desc
+        )
+        values (#{id,jdbcType=BIGINT},#{categoryName,jdbcType=VARCHAR},#{categoryDesc,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.lycoris.domain.Category" useGeneratedKeys="true">
+        insert into category
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="categoryName != null and categoryName != ''">category_name,</if>
+                <if test="categoryDesc != null and categoryDesc != ''">category_desc,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id,jdbcType=BIGINT},</if>
+                <if test="categoryName != null and categoryName != ''">#{categoryName,jdbcType=VARCHAR},</if>
+                <if test="categoryDesc != null and categoryDesc != ''">#{categoryDesc,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.lycoris.domain.Category">
+        update category
+        <set>
+                <if test="categoryName != null and categoryName != ''">
+                    category_name = #{categoryName,jdbcType=VARCHAR},
+                </if>
+                <if test="categoryDesc != null and categoryDesc != ''">
+                    category_desc = #{categoryDesc,jdbcType=VARCHAR},
+                </if>
+        </set>
+        where   id = #{id,jdbcType=BIGINT} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.lycoris.domain.Category">
+        update category
+        set 
+            category_name =  #{categoryName,jdbcType=VARCHAR},
+            category_desc =  #{categoryDesc,jdbcType=VARCHAR}
+        where   id = #{id,jdbcType=BIGINT} 
+    </update>
+
+    <!--add-->
+    <select id="selectAll" resultType="com.lycoris.domain.Category">
+        select
+        <include refid="Base_Column_List"/>
+        from category
+        <include refid="Base_Where"/>
+    </select>
+    <select id="selectCount" resultType="java.lang.Integer">
+        select
+        count(1)
+        from category
+        <include refid="Base_Where"/>
+    </select>
+    <select id="selectOneByCondition" resultType="com.lycoris.domain.Category">
+        select
+        <include refid="Base_Column_List"/>
+        from category
+        <include refid="Base_Where"/>
+        limit 1
+    </select>
+    <select id="selectAllByPage" resultType="com.lycoris.domain.Category">
+        select
+        <include refid="Base_Column_List"/>
+        from category
+        <where>
+            <if test="id != null">
+                and id = #{id,jdbcType=BIGINT}
+            </if>
+            <if test="categoryName != null and categoryName != '' ">
+                and category_name like concat('%',#{categoryName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="categoryDesc != null and categoryDesc != ''">
+                and category_desc like concat('%',#{categoryDesc,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+
+    </select>
+    <delete id="deleteByIds">
+        delete from category
+        <where>
+            <foreach collection="ids" item="id" open="id in (" separator="," close=")">
+                #{id,jdbcType=BIGINT}
+            </foreach>
+        </where>
+    </delete>
+</mapper>

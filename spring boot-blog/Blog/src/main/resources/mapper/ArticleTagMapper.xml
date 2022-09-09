@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lycoris.mapper.ArticleTagMapper">
+
+    <resultMap id="BaseResultMap" type="com.lycoris.domain.ArticleTag">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="tagId" column="tag_id" jdbcType="BIGINT"/>
+        <result property="articleId" column="article_id" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,tag_id,article_id
+    </sql>
+
+    <sql id="Base_Where">
+        <where>
+            <if test="id != null">
+                and id =
+                #{id,jdbcType=BIGINT}
+            </if>
+            <if test="tagId != null">
+               and tag_id
+                =
+                #{tagId,jdbcType=BIGINT}
+            </if>
+            <if test="articleId != null">
+               and article_id
+                =
+                #{articleId,jdbcType=BIGINT}
+            </if>
+        </where>
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from article_tag
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from article_tag
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.lycoris.domain.ArticleTag"
+            useGeneratedKeys="true">
+        insert into article_tag
+            (id, tag_id, article_id)
+        values (#{id,jdbcType=BIGINT}, #{tagId,jdbcType=BIGINT}, #{articleId,jdbcType=BIGINT})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.lycoris.domain.ArticleTag"
+            useGeneratedKeys="true">
+        insert into article_tag
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id
+            ,</if>
+            <if test="tagId != null">tag_id
+            ,</if>
+            <if test="articleId != null">article_id
+            ,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=BIGINT}
+            ,</if>
+            <if test="tagId != null">#{tagId,jdbcType=BIGINT}
+            ,</if>
+            <if test="articleId != null">#{articleId,jdbcType=BIGINT}
+            ,</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.lycoris.domain.ArticleTag">
+        update article_tag
+        <set>
+            <if test="tagId != null">
+                tag_id
+                =
+                #{tagId,jdbcType=BIGINT},
+            </if>
+            <if test="articleId != null">
+                article_id
+                =
+                #{articleId,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.lycoris.domain.ArticleTag">
+        update article_tag
+        set tag_id     = #{tagId,jdbcType=BIGINT},
+            article_id = #{articleId,jdbcType=BIGINT}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!--add-->
+    <select id="selectAll" resultType="com.lycoris.domain.ArticleTag">
+        select
+        <include refid="Base_Column_List"/>
+        from article_tag
+        <include refid="Base_Where"/>
+    </select>
+    <select id="selectCount" resultType="java.lang.Integer">
+        select
+        count(1)
+        from article_tag
+        <include refid="Base_Where"/>
+    </select>
+    <select id="selectOneByCondition" resultType="com.lycoris.domain.ArticleTag">
+        select
+        <include refid="Base_Column_List"/>
+        from article_tag
+        <include refid="Base_Where"/>
+        limit 1
+    </select>
+    <select id="getArticleTagList" resultType="com.lycoris.dto.ArticleTagDetail">
+        select a.article_id,
+               a.tag_id,
+               t.tag_name,
+               t.tag_desc
+        from article_tag a
+                 join tag t
+                      on a.tag_id = t.id
+        where article_id = #{articleId,jdbcType=BIGINT}
+    </select>
+    <select id="selectAllDetail" resultType="com.lycoris.dto.ArticleTagDetail">
+        select a.id,
+        a.article_id,
+        a.tag_id,
+        t.tag_name,
+        t.tag_desc
+        from article_tag a
+        join tag t
+        on a.tag_id = t.id
+        <where>
+            <if test="id != null">
+              and  id
+                =
+                #{id}
+            </if>
+            <if test="tagId != null">
+                and tag_id
+                =
+                #{tagId,jdbcType=BIGINT}
+            </if>
+            <if test="articleId != null">
+                and article_id
+                =
+                #{articleId,jdbcType=BIGINT}
+            </if>
+            <if test="tagName != null and tagName !=''">
+                and tag_name
+                =
+                #{tagName}
+            </if>
+            <if test="tagDesc != null and tagDesc != ''">
+                and  tag_desc
+                =
+                #{tagDesc}
+            </if>
+        </where>
+
+    </select>
+    <delete id="deleteByIds">
+        delete from article_tag
+        <where>
+            <foreach collection="ids" item="id" open="id in (" separator="," close=")">
+                #{id,jdbcType=BIGINT}
+            </foreach>
+        </where>
+    </delete>
+
+
+</mapper>

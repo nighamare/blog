@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lycoris.mapper.CommentMapper">
+
+    <resultMap id="BaseResultMap" type="com.lycoris.domain.Comment">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="articleId" column="article_id" jdbcType="BIGINT"/>
+        <result property="accountId" column="account_id" jdbcType="BIGINT"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="rootCommentId" column="root_comment_id" jdbcType="BIGINT"/>
+        <result property="replyCommentAccountId" column="reply_comment_account_id" jdbcType="BIGINT"/>
+        <result property="replyCommentId" column="reply_comment_id" jdbcType="BIGINT"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="commentLevel" column="comment_level" jdbcType="INTEGER"/>
+        <result property="praiseNum" column="praise_num" jdbcType="INTEGER"/>
+        <result property="topStatus" column="top_status" jdbcType="TINYINT"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,article_id,account_id,
+        content,root_comment_id,reply_comment_account_id,
+        reply_comment_id,status,comment_level,
+        praise_num,top_status,create_time
+    </sql>
+    <sql id="Base_Where">
+        <where>
+            <if test="id!=null">
+                and id =
+                #{id,jdbcType=BIGINT}
+            </if>
+            <if test="articleId != null">
+                and article_id =
+                #{articleId,jdbcType=BIGINT}
+            </if>
+            <if test="accountId != null">
+                and account_id =
+                #{accountId,jdbcType=BIGINT}
+            </if>
+            <if test="content != null and content != ''  ">
+                and content =
+                #{content,jdbcType=VARCHAR}
+            </if>
+            <if test="rootCommentId != null">
+                and root_comment_id =
+                #{rootCommentId,jdbcType=BIGINT}
+            </if>
+            <if test="replyCommentAccountId != null">
+                and reply_comment_account_id =
+                #{replyCommentAccountId,jdbcType=BIGINT}
+            </if>
+            <if test="replyCommentId != null">
+                and reply_comment_id =
+                #{replyCommentId,jdbcType=BIGINT}
+            </if>
+            <if test="status != null">
+                and status =
+                #{status,jdbcType=INTEGER}
+            </if>
+            <if test="commentLevel != null">
+                and comment_level =
+                #{commentLevel,jdbcType=INTEGER}
+            </if>
+            <if test="praiseNum != null">
+                and praise_num =
+                #{praiseNum,jdbcType=INTEGER}
+            </if>
+            <if test="topStatus != null">
+                and top_status =
+                #{topStatus,jdbcType=TINYINT}
+            </if>
+            <if test="createTime != null">
+                and create_time =
+                #{createTime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from comment
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from comment
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.lycoris.domain.Comment"
+            useGeneratedKeys="true">
+        insert into comment
+        ( id, article_id, account_id
+        , content, root_comment_id, reply_comment_account_id
+        , reply_comment_id, status, comment_level
+        , praise_num, top_status, create_time)
+        values ( #{id,jdbcType=BIGINT}, #{articleId,jdbcType=BIGINT}, #{accountId,jdbcType=BIGINT}
+               , #{content,jdbcType=VARCHAR}, #{rootCommentId,jdbcType=BIGINT}, #{replyCommentAccountId,jdbcType=BIGINT}
+               , #{replyCommentId,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, #{commentLevel,jdbcType=INTEGER}
+               , #{praiseNum,jdbcType=INTEGER}, #{topStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.lycoris.domain.Comment"
+            useGeneratedKeys="true">
+        insert into comment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id
+            ,</if>
+            <if test="articleId != null">article_id
+            ,</if>
+            <if test="accountId != null">account_id
+            ,</if>
+            <if test="content != null and content != ''">content
+            ,</if>
+            <if test="rootCommentId != null">root_comment_id
+            ,</if>
+            <if test="replyCommentAccountId != null">reply_comment_account_id
+            ,</if>
+            <if test="replyCommentId != null">reply_comment_id
+            ,</if>
+            <if test="status != null">status
+            ,</if>
+            <if test="commentLevel != null">comment_level
+            ,</if>
+            <if test="praiseNum != null">praise_num
+            ,</if>
+            <if test="topStatus != null">top_status
+            ,</if>
+            <if test="createTime != null">create_time
+            ,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=BIGINT}
+            ,</if>
+            <if test="articleId != null">#{articleId,jdbcType=BIGINT}
+            ,</if>
+            <if test="accountId != null">#{accountId,jdbcType=BIGINT}
+            ,</if>
+            <if test="content != null and content != ''">#{content,jdbcType=VARCHAR}
+            ,</if>
+            <if test="rootCommentId != null">#{rootCommentId,jdbcType=BIGINT}
+            ,</if>
+            <if test="replyCommentAccountId != null">#{replyCommentAccountId,jdbcType=BIGINT}
+            ,</if>
+            <if test="replyCommentId != null">#{replyCommentId,jdbcType=BIGINT}
+            ,</if>
+            <if test="status != null">#{status,jdbcType=INTEGER}
+            ,</if>
+            <if test="commentLevel != null">#{commentLevel,jdbcType=INTEGER}
+            ,</if>
+            <if test="praiseNum != null">#{praiseNum,jdbcType=INTEGER}
+            ,</if>
+            <if test="topStatus != null">#{topStatus,jdbcType=TINYINT}
+            ,</if>
+            <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP}
+            ,</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.lycoris.domain.Comment">
+        update comment
+        <set>
+            <if test="articleId != null">
+                article_id
+                =
+                #{articleId,jdbcType=BIGINT},
+            </if>
+            <if test="accountId != null">
+                account_id
+                =
+                #{accountId,jdbcType=BIGINT},
+            </if>
+            <if test="content != null and content != ''">
+                content
+                =
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="rootCommentId != null">
+                root_comment_id
+                =
+                #{rootCommentId,jdbcType=BIGINT},
+            </if>
+            <if test="replyCommentAccountId != null">
+                reply_comment_account_id
+                =
+                #{replyCommentAccountId,jdbcType=BIGINT},
+            </if>
+            <if test="replyCommentId != null">
+                reply_comment_id
+                =
+                #{replyCommentId,jdbcType=BIGINT},
+            </if>
+            <if test="status != null">
+                status
+                =
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="commentLevel != null">
+                comment_level
+                =
+                #{commentLevel,jdbcType=INTEGER},
+            </if>
+            <if test="praiseNum != null">
+                praise_num
+                =
+                #{praiseNum,jdbcType=INTEGER},
+            </if>
+            <if test="topStatus != null">
+                top_status
+                =
+                #{topStatus,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                create_time
+                =
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.lycoris.domain.Comment">
+        update comment
+        set article_id               = #{articleId,jdbcType=BIGINT},
+            account_id               = #{accountId,jdbcType=BIGINT},
+            content                  = #{content,jdbcType=VARCHAR},
+            root_comment_id          = #{rootCommentId,jdbcType=BIGINT},
+            reply_comment_account_id = #{replyCommentAccountId,jdbcType=BIGINT},
+            reply_comment_id         = #{replyCommentId,jdbcType=BIGINT},
+            status                   = #{status,jdbcType=INTEGER},
+            comment_level            = #{commentLevel,jdbcType=INTEGER},
+            praise_num               = #{praiseNum,jdbcType=INTEGER},
+            top_status               = #{topStatus,jdbcType=TINYINT},
+            create_time              = #{createTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!--add-->
+    <select id="selectAll" resultType="com.lycoris.domain.Comment">
+        select
+        <include refid="Base_Column_List"/>
+        from comment
+        <include refid="Base_Where"/>
+    </select>
+    <select id="selectCount" resultType="java.lang.Integer">
+        select
+        count(1)
+        from comment
+        <include refid="Base_Where"/>
+    </select>
+    <select id="selectOneByCondition" resultType="com.lycoris.domain.Comment">
+        select
+        <include refid="Base_Column_List"/>
+        from comment
+        <include refid="Base_Where"/>
+        limit 1
+    </select>
+    <delete id="deleteByIds">
+        delete from comment
+        <where>
+            <foreach collection="ids" item="id" open="id in (" separator="," close=")">
+                #{id,jdbcType=BIGINT}
+            </foreach>
+        </where>
+    </delete>
+
+    <select id="getCommentList" resultType="com.lycoris.dto.CommentInfo">
+        select a.nickname,
+               a.avatar,
+               c.account_id,
+               c.id,
+               c.content,
+               c.create_time,
+               c.praise_num
+        from comment c
+                 join account_info a
+                      on c.account_id = a.account_id
+        where c.article_id = #{articleId,jdbcType=BIGINT}
+          and c.status = 0
+          and c.root_comment_id = -1
+        order by c.praise_num desc
+
+    </select>
+    <select id="getReplyList" resultType="com.lycoris.dto.CommentReply">
+        select *
+        from(
+        select
+        c.id,
+        c.account_id,
+        u.nickname,
+        u.avatar,
+        c.reply_comment_account_id,
+        r.nickname as reply_nickname,
+        c.root_comment_id,
+        c.content,
+        c.comment_level,
+        c.reply_comment_id,
+        c.praise_num,
+        c.create_time
+
+        from
+        comment c
+        join account_info u on c.account_id = u.account_id
+        join account_info r on c.reply_comment_account_id = r.account_id
+        where
+        c.status = 0
+        <foreach collection="commentIdList" item="commentId" open="and root_comment_id in (" separator="," close=")">
+            #{commentId,jdbcType=BIGINT}
+        </foreach>
+        group by c.praise_num,c.root_comment_id,c.id
+        order by c.praise_num desc
+        ) t
+        limit 3
+    </select>
+
+    <select id="listReplyCountByCommentId" resultType="com.lycoris.dto.ReplyCount">
+        SELECT
+        root_comment_id as comment_id,
+        count(1) AS reply_count
+        FROM
+        comment
+        WHERE
+        status = 0
+
+        <foreach collection="commentIdList" item="commentId" open="and root_comment_id in (" separator="," close=")">
+            #{commentId,jdbcType=BIGINT}
+        </foreach>
+        GROUP BY
+        root_comment_id
+    </select>
+    <select id="listRepliesByCommentId" resultType="com.lycoris.dto.CommentReply">
+        select c.id,
+               c.account_id,
+               u.nickname,
+               u.avatar,
+               c.reply_comment_account_id,
+               r.nickname as reply_nickname,
+               c.root_comment_id,
+               c.content,
+               c.reply_comment_id,
+               c.comment_level,
+               c.praise_num,
+               c.create_time
+        from comment c
+                 join account_info u on c.account_id = u.account_id
+                 join account_info r on c.reply_comment_account_id = r.account_id
+        where c.status = 0
+          and root_comment_id = #{commentId}
+        order by c.praise_num desc, c.create_time
+    </select>
+    <select id="getCommentsByPage" resultType="com.lycoris.dto.CommentReply">
+        select c.id,
+        c.article_id,
+        c.account_id,
+        u.nickname,
+        u.avatar,
+        c.reply_comment_account_id,
+        r.nickname as reply_nickname,
+        c.root_comment_id,
+        c.content,
+        c.status,
+        c.reply_comment_id,
+        c.comment_level,
+        c.praise_num,
+        c.create_time
+        from comment c
+        join account_info u on c.account_id = u.account_id
+        left join account_info r on c.reply_comment_account_id = r.account_id
+        <where>
+            <if test="articleId != null">
+                and article_id
+        =
+                #{articleId,jdbcType=BIGINT}
+            </if>
+            <if test="accountId != null">
+                and account_id
+        =
+                #{accountId,jdbcType=BIGINT}
+            </if>
+            <if test="content != null and content !=''">
+                and content like concat('%',
+                #{content},
+                '%'
+                )
+            </if>
+            <if test="status != null">
+                and status =
+                #{status}
+            </if>
+
+        </where>
+
+    </select>
+    <select id="selectByRootCommentId" resultType="com.lycoris.domain.Comment">
+        select
+        <include refid="Base_Column_List"/>
+        from comment
+        where root_comment_id=#{rootCommentId}
+    </select>
+    <select id="selectByReplyCommentId" resultType="com.lycoris.domain.Comment">
+        select
+        <include refid="Base_Column_List"/>
+        from comment
+        where reply_comment_id=#{replyCommentId}
+    </select>
+
+
+</mapper>

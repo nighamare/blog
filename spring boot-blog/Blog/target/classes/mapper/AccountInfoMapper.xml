@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lycoris.mapper.AccountInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.lycoris.domain.AccountInfo">
+        <id property="accountId" column="account_id" jdbcType="BIGINT"/>
+        <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+        <result property="sex" column="sex" jdbcType="TINYINT"/>
+        <result property="phoneNum" column="phone_num" jdbcType="CHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="address" column="address" jdbcType="VARCHAR"/>
+        <result property="personalSignature" column="personal_signature" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        account_id
+        ,nickname,sex,
+        phone_num,email,address,
+        personal_signature,avatar
+    </sql>
+    <sql id="Base_Where">
+        <where>
+            <if test="accountId != null">
+                and account_id =
+                #{accountId,jdbcType=BIGINT}
+            </if>
+            <if test="sex != null">
+                and sex =
+                #{sex,jdbcType=TINYINT}
+            </if>
+            <if test="nickname != null and nickname != ''">
+                and nickname =
+                #{nickname,jdbcType=VARCHAR}
+            </if>
+            <if test="phoneNum != null and phoneNum != ''">
+                and phone_num =
+                #{phoneNum,jdbcType=CHAR}
+            </if>
+            <if test="email != null and email != ''">
+                and email =
+                #{email,jdbcType=VARCHAR}
+            </if>
+            <if test="address != null and address != ''">
+                and address =
+                #{address,jdbcType=VARCHAR}
+            </if>
+            <if test="personalSignature != null and personalSignature != ''">
+                and personal_signature =
+                #{personalSignature,jdbcType=VARCHAR}
+            </if>
+            <if test="avatar != null and avatar != ''">
+                and avatar =
+                #{avatar,jdbcType=VARCHAR}
+            </if>
+
+        </where>
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from account_info
+        where account_id = #{accountId,jdbcType=BIGINT}
+    </select>
+    <select id="selectAccountInfoAll" resultType="com.lycoris.domain.AccountInfo">
+        select
+        <include refid="Base_Column_List"/>
+        from account_info
+        <include refid="Base_Where"/>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from account_info
+        where account_id = #{accountId,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="account_id" keyProperty="accountId" parameterType="com.lycoris.domain.AccountInfo"
+            useGeneratedKeys="true">
+        insert into account_info
+        ( account_id, nickname, sex
+        , phone_num, email, address
+        , personal_signature, avatar)
+        values ( #{accountId,jdbcType=BIGINT}, #{nickname,jdbcType=VARCHAR}, #{sex,jdbcType=TINYINT}
+               , #{phoneNum,jdbcType=CHAR}, #{email,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}
+               , #{personalSignature,jdbcType=VARCHAR}, #{avatar,jdbcType=BLOB})
+    </insert>
+    <insert id="insertSelective" keyColumn="account_id" keyProperty="accountId"
+            parameterType="com.lycoris.domain.AccountInfo" useGeneratedKeys="true">
+        insert into account_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="accountId != null">account_id
+            ,</if>
+            <if test="nickname != null">nickname
+            ,</if>
+            <if test="sex != null">sex
+            ,</if>
+            <if test="phoneNum != null">phone_num
+            ,</if>
+            <if test="email != null">email
+            ,</if>
+            <if test="address != null">address
+            ,</if>
+            <if test="personalSignature != null">personal_signature
+            ,</if>
+            <if test="avatar != null and avatar != ''">avatar
+            ,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="accountId != null">#{accountId,jdbcType=BIGINT}
+            ,</if>
+            <if test="nickname != null">#{nickname,jdbcType=VARCHAR}
+            ,</if>
+            <if test="sex != null">#{sex,jdbcType=TINYINT}
+            ,</if>
+            <if test="phoneNum != null">#{phoneNum,jdbcType=CHAR}
+            ,</if>
+            <if test="email != null">#{email,jdbcType=VARCHAR}
+            ,</if>
+            <if test="address != null">#{address,jdbcType=VARCHAR}
+            ,</if>
+            <if test="personalSignature != null">#{personalSignature,jdbcType=VARCHAR}
+            ,</if>
+            <if test="avatar != null and avatar != ''">#{avatar,jdbcType=BLOB}
+            ,</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.lycoris.domain.AccountInfo">
+        update account_info
+        <set>
+            <if test="nickname != null">
+                nickname
+                =
+                #{nickname,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                sex
+                =
+                #{sex,jdbcType=TINYINT},
+            </if>
+            <if test="phoneNum != null">
+                phone_num
+                =
+                #{phoneNum,jdbcType=CHAR},
+            </if>
+            <if test="email != null">
+                email
+                =
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address
+                =
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="personalSignature != null">
+                personal_signature
+                =
+                #{personalSignature,jdbcType=VARCHAR},
+            </if>
+            <if test="avatar != null and avatar != ''">
+                avatar
+                =
+                #{avatar,jdbcType=BLOB},
+            </if>
+        </set>
+        where account_id = #{accountId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.lycoris.domain.AccountInfo">
+        update account_info
+        set nickname           = #{nickname,jdbcType=VARCHAR},
+            sex                = #{sex,jdbcType=TINYINT},
+            phone_num          = #{phoneNum,jdbcType=CHAR},
+            email              = #{email,jdbcType=VARCHAR},
+            address            = #{address,jdbcType=VARCHAR},
+            personal_signature = #{personalSignature,jdbcType=VARCHAR},
+            avatar             = #{avatar,jdbcType=BLOB}
+        where account_id = #{accountId,jdbcType=BIGINT}
+    </update>
+</mapper>

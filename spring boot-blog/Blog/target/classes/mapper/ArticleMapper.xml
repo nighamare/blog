@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lycoris.mapper.ArticleMapper">
+
+    <resultMap id="BaseResultMap" type="com.lycoris.domain.Article">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="accountId" column="account_id" jdbcType="BIGINT"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="summary" column="summary" jdbcType="VARCHAR"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="categoryId" column="category_id" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="commentOpen" column="comment_open" jdbcType="INTEGER"/>
+        <result property="appreciation" column="appreciation" jdbcType="INTEGER"/>
+        <result property="recommend" column="recommend" jdbcType="INTEGER"/>
+        <result property="reprint" column="reprint" jdbcType="INTEGER"/>
+        <result property="reprintUrl" column="reprint_url" jdbcType="VARCHAR"/>
+        <result property="blogImg" column="blog_img" jdbcType="VARCHAR"/>
+        <result property="views" column="views" jdbcType="BIGINT"/>
+        <result property="commentNum" column="comment_num" jdbcType="BIGINT"/>
+        <result property="likes" column="likes" jdbcType="BIGINT"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="lastUpdate" column="last_update" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,account_id,title,
+        summary,content,category_id,
+        status,comment_open,
+        appreciation,recommend,reprint,
+        reprint_url,blog_img,views,
+        comment_num,likes,create_time,
+        last_update
+    </sql>
+    <sql id="Base_Where">
+        <where>
+            <if test="id != null">
+                and id =
+                #{id,jdbcType=BIGINT}
+            </if>
+            <if test="accountId != null">
+                and account_id =
+                #{accountId,jdbcType=BIGINT}
+            </if>
+            <if test="title != null and title != ''">
+                and title =
+                #{title,jdbcType=VARCHAR}
+            </if>
+            <if test="summary != null and summary != ''">
+                and summary =
+                #{summary,jdbcType=VARCHAR}
+            </if>
+            <if test="content != null and content != ''">
+                and content =
+                #{content,jdbcType=VARCHAR}
+            </if>
+            <if test="categoryId != null">
+                and category_id =
+                #{categoryId,jdbcType=INTEGER}
+            </if>
+            <if test="status != null">
+                and status =
+                #{status,jdbcType=INTEGER}
+            </if>
+            <if test="commentOpen != null">
+                and comment_open =
+                #{commentOpen,jdbcType=INTEGER}
+            </if>
+            <if test="appreciation != null">
+                and appreciation =
+                #{appreciation,jdbcType=INTEGER}
+            </if>
+            <if test="recommend != null">
+                and recommend =
+                #{recommend,jdbcType=INTEGER}
+            </if>
+            <if test="reprint != null">
+                and reprint =
+                #{reprint,jdbcType=INTEGER}
+            </if>
+            <if test="reprintUrl != null and reprintUrl != ''">
+                and reprint_url =
+                #{reprintUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="blogImg != null and blogImg != ''">
+                and blog_img =
+                #{blogImg,jdbcType=VARCHAR}
+            </if>
+            <if test="views != null">
+                and views =
+                #{views,jdbcType=BIGINT}
+            </if>
+            <if test="commentNum != null">
+                and comment_num =
+                #{commentNum,jdbcType=BIGINT}
+            </if>
+            <if test="likes != null">
+                and likes =
+                #{likes,jdbcType=BIGINT}
+            </if>
+            <if test="createTime != null">
+                and create_time =
+                #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="lastUpdate != null">
+                and last_update =
+                #{lastUpdate,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </sql>
+
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from article
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from article
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.lycoris.domain.Article"
+            useGeneratedKeys="true">
+        insert into article
+        ( id, account_id, title
+        , summary, content, category_id
+        , status, comment_open
+        , appreciation, recommend, reprint
+        , reprint_url, blog_img, views
+        , comment_num, likes, create_time
+        , last_update)
+        values ( #{id,jdbcType=BIGINT}, #{accountId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}
+               , #{summary,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{categoryId,jdbcType=INTEGER}
+               , #{appreciation,jdbcType=INTEGER}, #{recommend,jdbcType=INTEGER}, #{reprint,jdbcType=INTEGER}
+               , #{reprintUrl,jdbcType=VARCHAR}, #{blogImg,jdbcType=VARCHAR}, #{views,jdbcType=BIGINT}
+               , #{commentNum,jdbcType=BIGINT}, #{likes,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}
+               , #{lastUpdate,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.lycoris.domain.Article"
+            useGeneratedKeys="true">
+        insert into article
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id
+            ,</if>
+            <if test="accountId != null">account_id
+            ,</if>
+            <if test="title != null and title != ''">title
+            ,</if>
+            <if test="summary != null and summary != ''">summary
+            ,</if>
+            <if test="content != null and content != ''">content
+            ,</if>
+            <if test="categoryId != null">category_id
+            ,</if>
+            <if test="status != null">status
+            ,</if>
+            <if test="commentOpen != null">comment_open
+            ,</if>
+            <if test="appreciation != null">appreciation
+            ,</if>
+            <if test="recommend != null">recommend
+            ,</if>
+            <if test="reprint != null">reprint
+            ,</if>
+            <if test="reprintUrl != null and reprintUrl != ''">reprint_url
+            ,</if>
+            <if test="blogImg != null and blogImg != ''">blog_img
+            ,</if>
+            <if test="views != null">views
+            ,</if>
+            <if test="commentNum != null">comment_num
+            ,</if>
+            <if test="likes != null">likes
+            ,</if>
+            <if test="createTime != null">create_time
+            ,</if>
+            <if test="lastUpdate != null">last_update
+            ,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=BIGINT}
+            ,</if>
+            <if test="accountId != null">#{accountId,jdbcType=BIGINT}
+            ,</if>
+            <if test="title != null and title != ''">#{title,jdbcType=VARCHAR}
+            ,</if>
+            <if test="summary != null and summary != ''">#{summary,jdbcType=VARCHAR}
+            ,</if>
+            <if test="content != null and content != ''">#{content,jdbcType=VARCHAR}
+            ,</if>
+            <if test="categoryId != null">#{categoryId,jdbcType=INTEGER}
+            ,</if>
+            <if test="status != null">#{status,jdbcType=INTEGER}
+            ,</if>
+            <if test="commentOpen != null">#{commentOpen,jdbcType=INTEGER}
+            ,</if>
+            <if test="appreciation != null">#{appreciation,jdbcType=INTEGER}
+            ,</if>
+            <if test="recommend != null">#{recommend,jdbcType=INTEGER}
+            ,</if>
+            <if test="reprint != null">#{reprint,jdbcType=INTEGER}
+            ,</if>
+            <if test="reprintUrl != null and reprintUrl != ''">#{reprintUrl,jdbcType=VARCHAR}
+            ,</if>
+            <if test="blogImg != null and blogImg != ''">#{blogImg,jdbcType=VARCHAR}
+            ,</if>
+            <if test="views != null">#{views,jdbcType=BIGINT}
+            ,</if>
+            <if test="commentNum != null">#{commentNum,jdbcType=BIGINT}
+            ,</if>
+            <if test="likes != null">#{likes,jdbcType=BIGINT}
+            ,</if>
+            <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP}
+            ,</if>
+            <if test="lastUpdate != null">#{lastUpdate,jdbcType=TIMESTAMP}
+            ,</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.lycoris.domain.Article">
+        update article
+        <set>
+            <if test="accountId != null">
+                account_id
+                =
+                #{accountId,jdbcType=BIGINT},
+            </if>
+            <if test="title != null and title != ''">
+                title
+                =
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="summary != null and summary != ''">
+                summary
+                =
+                #{summary,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null and content != ''">
+                content
+                =
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="categoryId != null">
+                category_id
+                =
+                #{categoryId,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status
+                =
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="commentOpen != null">
+                comment_open
+                =
+                #{commentOpen,jdbcType=INTEGER},
+            </if>
+            <if test="appreciation != null">
+                appreciation
+                =
+                #{appreciation,jdbcType=INTEGER},
+            </if>
+            <if test="recommend != null">
+                recommend
+                =
+                #{recommend,jdbcType=INTEGER},
+            </if>
+            <if test="reprint != null">
+                reprint
+                =
+                #{reprint,jdbcType=INTEGER},
+            </if>
+            <if test="reprintUrl != null and reprintUrl != ''">
+                reprint_url
+                =
+                #{reprintUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="blogImg != null and blogImg != ''">
+                blog_img
+                =
+                #{blogImg,jdbcType=VARCHAR},
+            </if>
+            <if test="views != null">
+                views
+                =
+                #{views,jdbcType=BIGINT},
+            </if>
+            <if test="commentNum != null">
+                comment_num
+                =
+                #{commentNum,jdbcType=BIGINT},
+            </if>
+            <if test="likes != null">
+                likes
+                =
+                #{likes,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                create_time
+                =
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdate != null">
+                last_update
+                =
+                #{lastUpdate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.lycoris.domain.Article">
+        update article
+        set account_id   = #{accountId,jdbcType=BIGINT},
+            title        = #{title,jdbcType=VARCHAR},
+            summary      = #{summary,jdbcType=VARCHAR},
+            content      = #{content,jdbcType=VARCHAR},
+            category_id  = #{categoryId,jdbcType=INTEGER},
+            status       = #{status,jdbcType=INTEGER},
+            comment_open = #{commentOpen,jdbcType=INTEGER},
+            appreciation = #{appreciation,jdbcType=INTEGER},
+            recommend    = #{recommend,jdbcType=INTEGER},
+            reprint      = #{reprint,jdbcType=INTEGER},
+            reprint_url  = #{reprintUrl,jdbcType=VARCHAR},
+            blog_img     = #{blogImg,jdbcType=VARCHAR},
+            views        = #{views,jdbcType=BIGINT},
+            comment_num  = #{commentNum,jdbcType=BIGINT},
+            likes        = #{likes,jdbcType=BIGINT},
+            create_time  = #{createTime,jdbcType=TIMESTAMP},
+            last_update  = #{lastUpdate,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!--add-->
+    <select id="selectAll" resultType="com.lycoris.domain.Article">
+        select
+        <include refid="Base_Column_List"/>
+        from article
+        <include refid="Base_Where"/>
+    </select>
+    <select id="selectCount" resultType="java.lang.Integer">
+        select
+        count(1)
+        from article
+        <include refid="Base_Where"/>
+    </select>
+    <select id="selectOneByCondition" resultType="com.lycoris.domain.Article">
+        select
+        <include refid="Base_Column_List"/>
+        from article
+        <include refid="Base_Where"/>
+        limit 1
+    </select>
+    <select id="selectAllArticlesInfo" resultType="com.lycoris.dto.ArticlesInfo">
+        select
+        a.id as id,
+        a.title as title,
+        a.summary as summary,
+        a.account_id as accountId,
+        a.category_id as categoryId,
+        a.status as status,
+        a.blog_img as blogImg,
+        a.views as views,
+        a.comment_num as commentNum,
+        a.likes as likes,
+        a.create_time as createTime,
+        a.last_update as lastUpdate,
+        bt.category_name as categoryName,
+        ac.nickname as nickname
+        from article a
+        join category bt on a.category_id = bt.id
+        join account_info ac on a.account_id = ac.account_id
+        <where>
+            <if test="id != null">
+                and a.id =
+                #{id,jdbcType=BIGINT}
+            </if>
+            <if test="accountId != null">
+                and a.account_id =
+                #{accountId,jdbcType=BIGINT}
+            </if>
+            <if test="title != null and title != ''">
+                and a.title =
+                #{title,jdbcType=VARCHAR}
+            </if>
+            <if test="summary != null and summary != ''">
+                and a.summary =
+                #{summary,jdbcType=VARCHAR}
+            </if>
+
+            <if test="categoryId != null">
+                and a.category_id =
+                #{categoryId,jdbcType=INTEGER}
+            </if>
+            <if test="status != null">
+                and a.status =
+                #{status,jdbcType=INTEGER}
+            </if>
+
+            <if test="blogImg != null and blogImg != ''">
+                and a.blog_img =
+                #{blogImg,jdbcType=VARCHAR}
+            </if>
+            <if test="views != null">
+                and a.views =
+                #{views,jdbcType=BIGINT}
+            </if>
+            <if test="commentNum != null">
+                and a.comment_num =
+                #{commentNum,jdbcType=BIGINT}
+            </if>
+            <if test="likes != null">
+                and a.likes =
+                #{likes,jdbcType=BIGINT}
+            </if>
+            <if test="createTime != null">
+                and a.create_time =
+                #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="lastUpdate != null">
+                and a.last_update =
+                #{lastUpdate,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+    <select id="selectAllArticlesInfoByLike" resultType="com.lycoris.dto.ArticlesInfo">
+        select a.id             as id,
+               a.title          as title,
+               a.summary        as summary,
+               a.account_id     as accountId,
+               a.category_id    as categoryId,
+               a.status         as status,
+               a.blog_img       as blogImg,
+               a.views          as views,
+               a.comment_num    as commentNum,
+               a.likes          as likes,
+               a.create_time    as createTime,
+               a.last_update    as lastUpdate,
+               bt.category_name as categoryName,
+               ac.nickname      as nickname
+        from article a
+                 join category bt on a.category_id = bt.id
+                 join account_info ac on a.account_id = ac.account_id
+        where a.title like concat('%', #{keyword,jdbcType=VARCHAR}, '%')
+           or a.summary like concat('%', #{keyword,jdbcType=VARCHAR}, '%')
+    </select>
+    <select id="selectOneArticleInfoByArticleId" resultType="com.lycoris.dto.ArticlesInfo">
+        select a.id             as id,
+               a.title          as title,
+               a.summary        as summary,
+               a.account_id     as accountId,
+               a.category_id    as categoryId,
+               a.status         as status,
+               a.blog_img       as blogImg,
+               a.views          as views,
+               a.comment_num    as commentNum,
+               a.likes          as likes,
+               a.create_time    as createTime,
+               a.last_update    as lastUpdate,
+               bt.category_name as categoryName,
+               ac.nickname      as nickname
+        from article a
+                 join category bt on a.category_id = bt.id
+                 join account_info ac on a.account_id = ac.account_id
+        where a.id = #{articleId,jdbcType=BIGINT} limit 1
+    </select>
+    <select id="selectHotArticles" resultType="com.lycoris.domain.Article">
+        select id,
+               account_id,
+               title,
+               summary,
+               views,
+               likes,
+               comment_num
+        from article
+        order by views desc, likes desc, comment_num desc limit 10
+    </select>
+    <select id="recommendedByStationMaster" resultType="com.lycoris.domain.Article">
+        select id,
+               account_id,
+               title,
+               summary,
+               views,
+               likes,
+               comment_num
+        from article
+        order by comment_num desc, likes desc, views desc limit 10
+    </select>
+    <select id="asYouLike" resultType="com.lycoris.domain.Article">
+        select id,
+               account_id,
+               title,
+               summary,
+               views,
+               likes,
+               comment_num
+        from article
+        order by likes desc, comment_num desc, views desc limit 10
+    </select>
+    <select id="selectAllByVague" resultType="com.lycoris.domain.Article">
+        select
+        <include refid="Base_Column_List"/>
+        from article a
+        <where>
+            <if test="id != null">
+                and a.id = like concat('%',
+                #{id,jdbcType=BIGINT},
+                '%'
+                )
+
+            </if>
+            <if test="accountId != null">
+                and a.account_id =  like concat('%',
+                #{accountId,jdbcType=BIGINT},
+                '%'
+                )
+
+            </if>
+            <if test="title != null and title != ''">
+                and a.title like concat('%',
+                #{title,jdbcType=VARCHAR},
+                '%'
+                )
+            </if>
+            <if test="categoryId != null">
+                and a.category_id =
+                #{categoryId,jdbcType=INTEGER}
+            </if>
+
+        </where>
+
+    </select>
+    <select id="selectArticleCountByStatus" resultType="java.lang.Integer">
+        select count(1)
+        from article
+        where status = #{status}
+    </select>
+    <select id="selectArticleCount" resultType="java.lang.Integer">
+        select count(1)
+        from article
+    </select>
+    <select id="selectArticlesInfoByPageAccountId" resultType="com.lycoris.dto.ArticlesInfo">
+        select
+            a.id as id,
+            a.title as title,
+            a.summary as summary,
+            a.account_id as accountId,
+            a.category_id as categoryId,
+            a.status as status,
+            a.blog_img as blogImg,
+            a.views as views,
+            a.comment_num as commentNum,
+            a.likes as likes,
+            a.create_time as createTime,
+            a.last_update as lastUpdate,
+            bt.category_name as categoryName,
+            ac.nickname as nickname
+        from article a
+                 join category bt on a.category_id = bt.id
+                 join account_info ac on a.account_id = ac.account_id
+        where a.account_id = #{accountId,jdbcType=BIGINT}
+    </select>
+
+    <sql id="Base_ArticlesInfo_Where">
+        <where>
+            <if test="id != null">
+                and id =
+                #{id,jdbcType=BIGINT}
+            </if>
+            <if test="accountId != null">
+                and account_id =
+                #{accountId,jdbcType=BIGINT}
+            </if>
+            <if test="title != null and title != ''">
+                and title =
+                #{title,jdbcType=VARCHAR}
+            </if>
+            <if test="summary != null and summary != ''">
+                and summary =
+                #{summary,jdbcType=VARCHAR}
+            </if>
+            <if test="nickname != null and nickname != ''">
+                and nickname =
+                #{nickname,jdbcType=VARCHAR}
+            </if>
+            <if test="categoryName != null and categoryName != ''">
+                and category_name =
+                #{categoryName,jdbcType=VARCHAR}
+            </if>
+            <if test="categoryId != null">
+                and category_id =
+                #{categoryId,jdbcType=INTEGER}
+            </if>
+            <if test="status != null">
+                and status =
+                #{status,jdbcType=INTEGER}
+            </if>
+
+            <if test="blogImg != null and blogImg != ''">
+                and blog_img =
+                #{blogImg,jdbcType=VARCHAR}
+            </if>
+            <if test="views != null">
+                and views =
+                #{views,jdbcType=BIGINT}
+            </if>
+            <if test="commentNum != null">
+                and comment_num =
+                #{commentNum,jdbcType=BIGINT}
+            </if>
+            <if test="likes != null">
+                and likes =
+                #{likes,jdbcType=BIGINT}
+            </if>
+            <if test="createTime != null">
+                and create_time =
+                #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="lastUpdate != null">
+                and last_update =
+                #{lastUpdate,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </sql>
+
+    <delete id="deleteByIds">
+        delete from article
+        <where>
+            <foreach collection="ids" item="id" open="id in (" separator="," close=")">
+                #{id,jdbcType=BIGINT}
+            </foreach>
+        </where>
+    </delete>
+
+</mapper>
